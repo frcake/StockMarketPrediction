@@ -43,9 +43,9 @@ plot(t_norm,X,'-.','LineWidth',1.8);
 ylabel('Adjusted Closing Value');
 xlabel('Time');
 grid on
-
+for i = 0:100
 % Set the time window of past values to be utilized.
-time_window = 10;
+time_window = i;
 
 % Generate the appropriate sequences of past time series  
 % (un-normalized) data for the given time window.
@@ -53,11 +53,11 @@ time_window = 10;
 
 % Set the percentage of available data instances to be used for training.
 training_percentage = 0.70;
-eval_percentage = 0.20;
+validation_percentage = 0.20;
 test_percentage = 0.10;
 
 % Set training and testing (un-normalized) data instances. 
-[Xps_train,Xps_test,Tps_train,Tps_test] = generate_training_testing_data(Xps,Tps,training_percentage,eval_percentage,test_percentage);
+[Xps_train,Xps_test,Tps_train,Tps_test] = generate_training_testing_data(Xps,Tps,training_percentage,validation_percentage);
 
 % -------------------------------------------------------------------------
 % TRAINING MODE:
@@ -107,6 +107,10 @@ T = T';
 
 % Get network predictions on un-normalized testing data.
 Yps_test = sim(net,P);
+C = minus(T,Yps_test);
+%fprintf('c %f\n',C);
+fprintf('SUM: %f\n',sum(C));
+end
 % Compute the correspodning RMSE value for the un-normalized testing data.
 RMSE_test = sqrt(mean((Yps_test-T).^2));
 % Plot corresponding fitting performance.
