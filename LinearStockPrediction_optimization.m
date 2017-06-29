@@ -43,9 +43,9 @@ plot(t_norm,X,'-.','LineWidth',1.8);
 ylabel('Adjusted Closing Value');
 xlabel('Time');
 grid on
-%for i = 1:100
+for i = 1:4
 % Set the time window of past values to be utilized.
-time_window = 2;
+time_window = i;
 
 % Generate the appropriate sequences of past time series  
 % (un-normalized) data for the given time window.
@@ -121,17 +121,17 @@ RMSE_test = sqrt(mean((Yps_test-T).^2));
 RMSE_val = sqrt(mean((Yps_val-Tval).^2));
 % Plot corresponding fitting performance.
 figure_name = 'S&P 500 UnNormalized Values';
-plot_fitting_performance(figure_name,Xps_train(:,1),Tps_train,Yps_train,Xps_val(:,1),Tps_val,Yps_val,Xps_test(:,1),Tps_test,Yps_test)
+%plot_fitting_performance(figure_name,Xps_train(:,1),Tps_train,Yps_train,Xps_val(:,1),Tps_val,Yps_val,Xps_test(:,1),Tps_test,Yps_test)
 
 % Output training and testing performance metrics in terms of RMSE.
 fprintf('RMSE TRAINING: %f\n',RMSE_train);
 fprintf('RMSE TESTING: %f\n',RMSE_test);
 fprintf('RMSE VAL: %f\n',RMSE_val);
-%Gtrain(i) = RMSE_train;
-%Gval(i) = RMSE_val;
-%Gtest(i) = RMSE_test;
-%end
-%plot(1:length(Gtrain),Gtrain,1:length(Gtrain),Gval,1:length(Gtrain),Gtest);
+Gtrain(i) = RMSE_train;
+Gval(i) = RMSE_val;
+Gtest(i) = RMSE_test;
+end
+plot(1:length(Gtrain),Gtrain,1:length(Gtrain),Gval,1:length(Gtrain),Gtest);
 %plot([Gtrain Gval Gtest]);
 % Get the internal network parameter values after training. For the case of
 % a linear network these parameters correspond to the weight vector and the
