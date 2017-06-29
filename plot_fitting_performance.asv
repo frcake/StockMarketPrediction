@@ -9,10 +9,8 @@ plot(t_train,x_train,'-.b','LineWidth',1.8);
 plot(t_test,x_test,'-.k','LineWidth',1.8);
 plot(t_train,y_train,'-.g','LineWidth',1.8);
 plot(t_test,y_test,'-.r','LineWidth',1.8);
-plot(t_val,x_val,'-.k','LineWidth',1.8);
-plot(t_val,y_val,'-.c','LineWidth',1.8);
-
-
+plot(t_train,y_val,'-.g','LineWidth',1.8);
+plot(t_test,y_test,'-.r','LineWidth',1.8);
 hold off
 grid on
 xlabel('Time');
