@@ -62,10 +62,10 @@ time_window = 10;
 [Xps_norm,Tps] = generate_past_sequences(X_norm,time_window);
 
 % Set the percentage of available data instances to be used for training.
-training_percentage = 0.90;
-
+training_percentage = 0.70;
+validation_percentage = 0.20;
 % Set training and testing (normalized) data instances. 
-[Xps_norm_train,Xps_norm_test,Tps_train,Tps_test] = generate_training_testing_data(Xps_norm,Tps,training_percentage);
+[Xps_norm_train,Xps_norm_test,Tps_train,Tps_test] = generate_training_testing_data(Xps_norm,Tps,training_percentage,validation_percentage);
 
 % -------------------------------------------------------------------------
 % TRAINING MODE:
