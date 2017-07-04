@@ -69,7 +69,7 @@ T = Xps_train(:,1);
 % Transposition of training patterns and corresponding targets (un-normalized).
 P = P';
 T = T';
-
+QQ = zeros(1,length(Xps_train(:,1)),'double');
 % Get the corresponding minmax matrix for the input vectors. The number of
 % rows for the R matrix will be equal to the number of columns of Pnorm
 % matrix. Each row of matrix R contains a pair of minumum and maximum
@@ -77,6 +77,21 @@ T = T';
 % row element of matrix R provides the limits for the corresponding input
 % feature.
 R = minmax(P);
+T = sign(diff(T));
+
+T = cumsum(T);
+%T(length(T)+1)=0;
+%T = T(length(T)+1);
+
+for i=1:(length(QQ));
+    if ( i == 1 )
+       QQ(i) = 0; 
+    else
+     QQ(i)=T(i-1); 
+    end
+end
+%T(1) = 0;
+%T= SumDiff;
 % Set the linear neural network for the normalized version of the input
 % variables.
 net  = newlin(R,1,0,0.1);
@@ -88,11 +103,13 @@ net.trainParam.epochs = 1000;
 net.trainParam.goal = 0.0;
 net.trainFcn = 'trainb';
 % Train network object.
-net = train(net,P,T);
+net = train(net,P,QQ);
 
 % Get network predictions on training data.
 Yps_train = sim(net,P);
 % Compute the correspodning RMSE value.
+T = Xps_train(:,1);
+T= T';
 RMSE_train = sqrt(mean((Yps_train-T).^2));
 
 % -------------------------------------------------------------------------
@@ -106,6 +123,9 @@ Tval = Xps_val(:,1);
 % Transposition of training patterns and corresponding targets (un-normalized).
 P = P';
 T = T';
+for i=1:(length(Tval')-1);    
+    Diff(i) = sign(Tval(i)-Tval(i+1));    
+end
 Pval = Pval';
 Tval = Tval';
 
